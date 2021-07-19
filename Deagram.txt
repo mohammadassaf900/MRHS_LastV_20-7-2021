@@ -1,0 +1,79 @@
+Table Role {
+  RoleID int [pk,increment]
+  RoleName nvarchar(50)
+}
+////////
+Table User {
+  UserName NVARCHAR(50)
+  RoleID INT 
+  Email NVARCHAR(50) [pk]
+  Phone NVARCHAR(50)
+  Password NVARCHAR(MAX)
+  Status NVARCHAR(50)
+  ActivationCode UNIQUEIDENTIFIER
+  ResetPasswordCode NVARCHAR(100)
+  IsEmailVerified BIT
+}
+Ref: User.RoleID > Role.RoleID
+////////////
+TABLE BlockAcconut {
+  Id int [pk]
+  UserEmail NVARCHAR(50)
+  Status NVARCHAR(50)
+  Reason NVARCHAR(1000)
+  DateTime DATETIME
+}
+Ref: BlockAcconut.UserEmail > User.Email
+///////////////
+TABLE Comment {
+  CommentId int [pk]
+  SenderEmail NVARCHAR(50)
+  ReceiverEmail NVARCHAR(50)
+  Comment NVARCHAR(1000)
+  DateTime DATETIME
+  ParentID int
+}
+Ref: Comment.SenderEmail > User.Email
+Ref: Comment.ReceiverEmail > User.Email
+Ref: Comment.ParentID > Comment.CommentId
+/////////////////////////
+TABLE Governorate {
+  GovernorateId int [pk]
+  GovernorateName NVARCHAR(50)
+}
+///////////////////////
+TABLE Store {
+  UserEmail NVARCHAR(50) [pk]
+  Points INT
+  Address NVARCHAR(1000)
+  GovernorateID INT 
+}
+Ref: Store.GovernorateID > Governorate.GovernorateId
+Ref: Store.UserEmail > User.Email
+//////////////////////////////
+TABLE Invoice {
+  InvoiceId int [pk]
+  UserEmail NVARCHAR(50) 
+  RepairType NVARCHAR(1000)
+  Price FLOAT(53)
+  Image NVARCHAR(MAX)
+  Date DATE
+  UserPhoneNumber NVARCHAR(50)
+  DeviceID NVARCHAR(50)
+}
+Ref:Invoice.UserEmail > User.Email
+////////////////////////
+TABLE Rate {
+  RateId INT 
+  SenderEmail NVARCHAR(50)
+  ReceiverEmail NVARCHAR(50)
+  Rate FLOAT
+  DateTime DATETIME
+  
+  Indexes {
+   (SenderEmail, ReceiverEmail) [pk]
+  }
+}
+Ref: Rate.SenderEmail > User.Email
+Ref: Rate.ReceiverEmail > User.Email
+/////////////////////////////////////////////////////////////////////

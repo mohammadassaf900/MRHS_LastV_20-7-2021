@@ -1,0 +1,81 @@
+﻿@model List<Mobile_Repair_History_System_MRHS.Models.Invoice>
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 style="text-align:center;">Invoice list</h3>
+                    </div>
+                    <div class="col-12" style="margin:0 auto;">
+                        <select id="filterType_invoice" class="col-6" style="width:49%;">
+                            <option>Search For</option>
+                            <option value="0">No.</option>
+                            <option value="1">Invoice ID</option>
+                            <option value="2">Store Email</option>
+                            <option value="3">Date</option>
+                            <option value="4">Device ID</option>
+                        </select>
+                        <input type="text" id="searchBox_invoice" onkeyup="search_invoice()" placeholder="Search" class="col-6" style="width:49%;">
+                    </div>
+                    <table id="dataTable" style="margin:0 auto;padding:5px 5px;" class="table">
+                        <thead class="header">
+                            <tr>
+                                <th>No.</th>
+                                <th>Invoice ID</th>
+                                <th>Store Email</th>
+                                <th>Date</th>
+                                <th>Device ID</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null)
+                            {
+                                int Count = 1;
+                                foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@Count</td>
+                                        <td>@item.InvoiceID</td>
+                                        <td>@item.StoreEmail</td>
+                                        <td>@item.Date</td>
+                                        <td>@item.DeviceID</td>
+                                        <td>
+                                            @Html.ActionLink("Delete", "Delete_Invoices", new { id = item.InvoiceID })|@Html.ActionLink("Details", "Details_Invoices", new { id = item.InvoiceID })
+                                        </td>
+                                    </tr>
+                                    Count++;
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+<script>
+    function search_invoice() {
+        var input, filter, table, tr, td, i, searchFilter;
+        input = document.getElementById("searchBox_invoice");
+        filter = input.value.toUpperCase();
+        searchFilter = document.getElementById("filterType_invoice");
+        table = document.getElementById("dataTable");
+        tr = table.getElementsByTagName("tr");
+
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[
+                searchFilter.options[searchFilter.selectedIndex].value
+            ];
+            if (td) {
+                if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+</script>

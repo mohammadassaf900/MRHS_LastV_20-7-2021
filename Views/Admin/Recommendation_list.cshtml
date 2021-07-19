@@ -1,0 +1,93 @@
+﻿@model IEnumerable<Mobile_Repair_History_System_MRHS.Models.MultipleClass>
+@{
+    ViewBag.Title = "Recommendation list";
+    Layout = "~/Views/Share/_AdminMain.cshtml";
+}
+<script src="~/Contant/Admin/jquery.min.js"></script>
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card" style="margin-top:15px;">
+                    <div class="card-header">
+                        <h3 style="text-align:center;">Rcommendation List</h3>
+                    </div>
+                    <div class="col-12" style="margin:0 auto;">
+                        <select id="filterType_RecommendationList" class="col-6" style="width:49%;">
+                            <option>Search For</option>
+                            <option value="0">Rank</option>
+                            <option value="1">Store Name</option>
+                            <option value="2">Email</option>
+                            <option value="3">Rate</option>
+                            <option value="4">Points</option>
+                            <option value="5">status</option>
+                        </select>
+                        <input type="text" id="searchBox_RecommendationList" onkeyup="search_RecommendationList()" placeholder="Search" class="col-6" style="width:49%;">
+                    </div>
+                    <table id="dataTable" style="margin:0 auto;padding:5px 5px;" class="table">
+                        <thead class="header">
+                            <tr>
+                                <th>Rank</th>
+                                <th>Store Name</th>
+                                <th>Email</th>
+                                <th>Rate</th>
+                                <th>Points</th>
+                                <th>Status</th>
+                                <th>Details</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null)
+                            {
+                                int rank = 1;
+                                foreach (var item in Model.OrderByDescending(x => x.store.Points))
+                                {
+                                    if (item.user.Status == "Active")
+                                    {
+                                        <tr>
+                                            <td>@rank</td>
+                                            <td>@item.user.UserName</td>
+                                            <td>@item.store.Email</td>
+                                            <td>@item.rate.Value</td>
+                                            <td>@item.store.Points</td>
+                                            <td>@item.user.Status</td>
+                                            <td>@Html.ActionLink("Details", "Store_info", new { email = item.store.Email })</td>
+                                        </tr>
+                                        rank++;
+                                    }
+                                    if (rank == 11)
+                                    {
+                                        break;
+                                    }
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+<script>
+    function search_RecommendationList() {
+        var input, filter, table, tr, td, i, searchFilter;
+        input = document.getElementById("searchBox_RecommendationList");
+        filter = input.value.toUpperCase();
+        searchFilter = document.getElementById("filterType_RecommendationList");
+        table = document.getElementById("dataTable");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[
+                searchFilter.options[searchFilter.selectedIndex].value
+            ];
+            if (td) {
+                if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+</script>

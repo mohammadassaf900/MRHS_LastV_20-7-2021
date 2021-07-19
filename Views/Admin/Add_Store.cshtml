@@ -1,0 +1,38 @@
+﻿@model Mobile_Repair_History_System_MRHS.Models.User
+@{
+    ViewBag.Title = "Add Store";
+    Layout = "~/Views/Share/_AdminMain.cshtml";
+}
+<script src="~/Contant/Admin/jquery.min.js"></script>
+<h2 style="text-align:center;padding-top:50px;">Add Store</h2>
+@using (Html.BeginForm("Add_Store","Admin",FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <div class="container" style="margin-top:10px;">
+        <div class="row" style="margin-bottom:10px;">
+            <div class="col-6">
+                @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control" ,placeholder="Store Name"} })
+                @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" ,style="color:red;"})
+            </div>
+            <div class="col-6">
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", placeholder = "Store Email" } })
+                @Html.ValidationMessageFor(x => x.Email, "", new { @class = "text-danger", style = "color:red;" })
+            </div>
+        </div>
+        <div class="row" style="margin-bottom:10px;">
+            <div class="col-6">
+                @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control", placeholder = "Store Phone" } })
+                @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger", style = "color:red;" })
+            </div>
+            <div class="col-6">
+                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", placeholder = "Store Password" } })
+                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger", style = "color:red;" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <input type="submit" value="Add" id="add" class="btn btn-block btn-primary btn-lg" style="border-radius:50px;margin-top:10px;" />
+            </div>
+        </div>
+    </div>
+}

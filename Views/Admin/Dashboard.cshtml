@@ -1,0 +1,112 @@
+﻿@model IEnumerable<Mobile_Repair_History_System_MRHS.Models.User>
+@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Share/_AdminMain.cshtml";
+}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<div class="container-fluid">
+    <div class="row" style="padding-top:25px;">
+        <div class="col-lg-3 col-6" onclick="invoice_list()">
+            <div class="small-box bg-info">
+                <div class="inner">
+                    <h3>@ViewBag.invoice</h3>
+                    <p>Invoices</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-receipt"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-6" onclick="store_list()">
+            <div class="small-box bg-success">
+                <div class="inner">
+                    <h3>@ViewBag.StoreCount</h3>
+                    <p>Stores</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-store"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-6" onclick="user_list()">
+            <div class="small-box bg-warning">
+                <div class="inner">
+                    <h3>@ViewBag.userReg</h3>
+                    <p>User Registrations</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-users"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-6" onclick="block_list()">
+            <div class="small-box bg-danger">
+                <div class="inner">
+                    <h3>@ViewBag.BlockedCount</h3>
+                    <p>Blocked Accounts</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-ban"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="Invoice_list" style="display:none;">
+    @Html.Action("Invoice_list")
+</div>
+<div id="Store_list" style="display:none;">
+    @Html.Action("Store_list")
+</div>
+<div id="User_list" style="display:none;">
+    @Html.Action("User_list")
+</div>
+<div id="Block_list" style="display:none;">
+    @Html.Action("Block_list")
+</div>
+<script>
+    var Ilist = document.getElementById("Invoice_list");
+    var Slist = document.getElementById("Store_list");
+    var Ulist = document.getElementById("User_list");
+    var Blist = document.getElementById("Block_list");
+    function invoice_list() {
+        if (Ilist.style.display === "none") {
+            Ilist.style.display = "block";
+            Slist.style.display = "none";
+            Ulist.style.display = "none";
+            Blist.style.display = "none";
+        } else {
+            Ilist.style.display = "none";
+        }
+    }
+    function store_list() {
+        if (Slist.style.display === "none") {
+            Slist.style.display = "block";
+            Ilist.style.display = "none";
+            Ulist.style.display = "none";
+            Blist.style.display = "none";
+        } else {
+            Slist.style.display = "none";
+        }
+    }
+    function user_list() {
+        if (Ulist.style.display === "none") {
+            Ulist.style.display = "block";
+            Ilist.style.display = "none";
+            Slist.style.display = "none";
+            Blist.style.display = "none";
+        } else {
+            Ulist.style.display = "none";
+        }
+    }
+    function block_list() {
+        if (Blist.style.display === "none") {
+            Blist.style.display = "block";
+            Ilist.style.display = "none";
+            Slist.style.display = "none";
+            Ulist.style.display = "none";
+        } else {
+            Blist.style.display = "none";
+        }
+    }
+</script>

@@ -1,0 +1,144 @@
+﻿@model Mobile_Repair_History_System_MRHS.Models.User
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign Up</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css'>
+    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'>
+    <link href="~/Contant/Account/css/style.css" rel="stylesheet" />
+    <link rel="icon" href="~/Contant/Home/assets/logo2.png" type="image/icon type">
+</head>
+<body class="main">
+    <div id="particles-js"></div>
+    @* ------------------------------------------------------------------------------ *@
+    @if (ViewBag.Status != null && Convert.ToBoolean(ViewBag.Status))
+    {
+        <div class="container" style="margin-top:80px;">
+            <div class="main-container-wrapper clearfix">
+                <div class="logo">
+                    <i class="fa fa-lock"></i>
+                </div>
+                <div class="welcome"><strong>Welcome</strong></div>
+                <div class="form-horizontal main-form">
+                    @if (ViewBag.Message != null)
+                    {
+                        <div class="alert alert-success" style=" text-align: center;">
+                            <strong>Success!</strong>@ViewBag.Message
+                        </div>
+                        <div>
+                            @Html.ActionLink("Login", "Login", "", new { @class = "btn btn-success btn-lg btn-block" })
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+    @* ------------------------------------------------------------------------------ *@
+    else
+    {
+        <div class="container" style="margin-top: -11px;">
+            <div>
+                <div class="main-container-wrapper clearfix " style="max-width: none;">
+                    <div class="logo" style="width:100px;left:46%;">
+                        <i class="fa fa-user-plus"></i>
+                    </div>
+                    <div class="welcome"><strong>Welcome,</strong> Please Sign Up</div>
+                    <div class="form-horizontal main-form">
+                        @using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
+                            <div class="form-horizontal">
+                                <table style=" margin-left: 30px;">
+                                    <tr>
+                                        <td colspan="2">
+                                            <div class="form-group relative">
+                                                @Html.EditorFor(model => model.UserName, new
+                                                    {
+                                                        htmlAttributes = new
+                                                            {
+                                                               @class = "form-control input-lg",
+                                                               @id = "main_username",
+                                                               placeholder = "Full Name",
+                                                               style = "background-color: rgba(40, 52, 67, 0.75);border: 1px solid #4a525f;color: #eee;border-left: 4px solid #93a5ab;"
+                                                            }
+                                                     })
+                                                <i class="fa fa-user-circle"></i>
+                                                @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger", style = "color:red;" })
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="form-group relative" style="width:500px;">
+                                                @Html.EditorFor(model => model.Email, new
+                                                    {
+                                                       htmlAttributes = new
+                                                       {
+                                                           @class = "form-control input-lg",
+                                                           @id = "main_username",
+                                                           placeholder = "Email",
+                                                           style = "background-color: rgba(40, 52, 67, 0.75);border: 1px solid #4a525f;color: #eee;border-left: 4px solid #93a5ab;"
+                                                       }
+                                                    })
+                                                <i class="fa fa-envelope"></i>
+                                                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger", style = "color:red;" })
+                                                @Html.ValidationMessage("EmailExist", new { @class = "text-danger", style = "color:red;" })
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group relative" style="width:500px;">
+                                                @Html.EditorFor(model => model.Phone, new
+                                                    {
+                                                       htmlAttributes = new
+                                                       {
+                                                           @class = "form-control input-lg",
+                                                           @id = "main_username",
+                                                           placeholder = "Phone",
+                                                           style = "background-color: rgba(40, 52, 67, 0.75);border: 1px solid #4a525f;color: #eee;border-left: 4px solid #93a5ab;"
+                                                       }
+                                                    })
+                                                <i class="fa fa-phone"></i>
+                                                @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="form-group relative password">
+                                                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control input-lg", placeholder = "Password", id = "main_password", type = "password", style = "background-color: rgba(40, 52, 67, 0.75);border: 1px solid #4a525f;color: #eee;border-left: 4px solid #93a5ab;" } })
+                                                <i class="fa fa-lock"></i>
+                                                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger", style = "color:red;" })
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group relative password" style="width:500px;">
+                                                @Html.Editor("ConfirmPassword", new { htmlAttributes = new { @class = "form-control input-lg", placeholder = "Confirm Password", id = "main_password", style = "background-color: rgba(40, 52, 67, 0.75);border: 1px solid #4a525f;color: #eee;border-left: 4px solid #93a5ab;", type = "password" } })
+                                                <i class="fa fa-lock"></i>
+                                                @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger", style = "color:red;" })
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <div class="form-group">
+                                    <input type="submit" value="Sign Up" class="btn btn-success btn-lg btn-block" style="margin-top:10px;" />
+                                </div>
+                            </div>
+                            <div>
+                                @Html.ActionLink("Login", "Login")
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js'></script>
+    <script src='https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js'></script>
+    <script src="~/Contant/Account/js/mains.js"></script>
+</body>
+</html>

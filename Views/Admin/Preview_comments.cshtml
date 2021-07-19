@@ -1,0 +1,109 @@
+﻿@model List<Mobile_Repair_History_System_MRHS.Models.Comment>
+@{
+    ViewBag.Title = "Preview Comments";
+    Layout = "~/Views/Share/_AdminMain.cshtml";
+}
+<script src="~/Contant/Admin/jquery.min.js"></script>
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card" style="margin-top:15px;">
+                    <div class="card-header">
+                        <h3 style="text-align:center;">Comment List</h3>
+                    </div>
+                    <div class="col-12" style="margin:0 auto;">
+                        <select id="filterType_Comment" class="col-6" style="width:49%;">
+                            <option>Search For</option>
+                            <option value="0">No.</option>
+                            <option value="1">Comment ID</option>
+                            <option value="2">Sender Email</option>
+                            <option value="3">Receiver Email</option>
+                            <option value="4">Comment</option>
+                            <option value="5">Date</option>
+                            <option value="6">Parent ID</option>
+                        </select>
+                        <input type="text" id="searchBox_Comment" onkeyup="search_Comment()" placeholder="Search" class="col-6" style="width:49%;">
+                    </div>
+                    <table id="dataTable" style="margin:0 auto;padding:5px 5px;" class="table">
+                        <thead class="header">
+                            <tr>
+                                <th>No.</th>
+                                <th>Comment ID</th>
+                                <th>Sender Email</th>
+                                <th>Receiver Email</th>
+                                <th>Comment</th>
+                                <th>Date</th>
+                                <th>ParentId</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null)
+                            {
+                                int Count = 1;
+                                foreach (var item in Model)
+                                {
+                                    if (item.CommentID != 0)
+                                    {
+                                        var comm = Model.Where(x => x.ParentID == item.CommentID).ToList();
+                                        if (item.ParentID == 0)
+                                        {
+                                            <tr>
+                                                <td>@Count</td>
+                                                <td>@item.CommentID</td>
+                                                <td>@item.SenderEmail</td>
+                                                <td>@item.RecieverEmail</td>
+                                                <td>@item.Content</td>
+                                                <td>@item.DateTime</td>
+                                                <td>@item.ParentID</td>
+                                                <td>@Html.ActionLink("Delete", "Delete_Comment", new { id = item.CommentID })</td>
+                                            </tr>
+                                        }
+                                        foreach (var c in comm)
+                                        {
+                                            <tr>
+                                                <td>reply</td>
+                                                <td>@c.CommentID</td>
+                                                <td>@c.SenderEmail</td>
+                                                <td>@c.RecieverEmail</td>
+                                                <td>@c.Content</td>
+                                                <td>@c.DateTime</td>
+                                                <td>@c.ParentID</td>
+                                                <td>@Html.ActionLink("Delete", "Delete_Comment", new { id = c.CommentID })</td>
+                                            </tr>
+                                        }
+                                        Count++;
+                                    }
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+<script>
+    function search_Comment() {
+        var input, filter, table, tr, td, i, searchFilter;
+        input = document.getElementById("searchBox_Comment");
+        filter = input.value.toUpperCase();
+        searchFilter = document.getElementById("filterType_Comment");
+        table = document.getElementById("dataTable");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[
+                searchFilter.options[searchFilter.selectedIndex].value
+            ];
+            if (td) {
+                if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+</script>

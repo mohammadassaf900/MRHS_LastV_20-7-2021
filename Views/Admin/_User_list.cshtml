@@ -1,0 +1,110 @@
+﻿@model List<Mobile_Repair_History_System_MRHS.Models.User>
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 style="text-align:center;">User list</h3>
+                    </div>
+                    <div class="col-12" style="margin:0 auto;">
+                        <select id="filterType" class="col-6" style="width:49%;">
+                            <option>Search For</option>
+                            <option value="0">No.</option>
+                            <option value="1">Name</option>
+                            <option value="2">Email</option>
+                            <option value="3">Role</option>
+                            <option value="4">Phone</option>
+                            <option value="5">Status</option>
+                            <option value="6">Is Verified</option>
+                        </select>
+                        <input type="text" id="searchBox" onkeyup="searchUser()" placeholder="Search" class="col-6"style="width:49%;">
+                    </div>
+                    <table id="dataTable1"style="margin:0 auto;padding:5px 5px;" class="table">
+                        <thead class="header">
+                            <tr>
+                                <th>No.</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Phone</th>
+                                <th>Status</th>
+                                <th>Is Verified</th>
+                                <th>Details</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.Count != 0)
+                            {
+                                int Count = 1;
+                                foreach (var item in Model)
+                                {
+                                    if (item.Status == "Active" && item.RoleID == 3 || item.RoleID == 4)
+                                    {
+                                        <tr>
+                                            <td>@Count</td>
+                                            <td>@item.UserName</td>
+                                            <td>@item.Email</td>
+                                            @switch (item.RoleID)
+                                            {
+                                                case 1:
+                                                    {
+                                                        <td>Admin</td>
+                                                    }
+                                                    break;
+                                                case 2:
+                                                    {
+                                                        <td>Store</td>
+                                                    }
+                                                    break;
+                                                case 3:
+                                                    {
+                                                        <td>Customer</td>
+                                                    }
+                                                    break;
+                                                case 4:
+                                                    {
+                                                        <td>Guest</td>
+                                                    }
+                                                    break;
+                                            }
+                                            <td>@item.Phone</td>
+                                            <td>@item.Status</td>
+                                            <td>@item.IsEmailVerified</td>
+                                            <td>@Html.ActionLink("Details", "user_info", new { email = item.Email })</td>
+                                        </tr>
+                                    }
+                                    Count++;
+                                }
+                            }
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+<script>
+    function searchUser() {
+        var input, filter, table, tr, td, i, searchFilter;
+        input = document.getElementById("searchBox");
+        filter = input.value.toUpperCase();
+        searchFilter = document.getElementById("filterType");
+        table = document.getElementById("dataTable1");
+        tr = table.getElementsByTagName("tr");
+
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[
+                searchFilter.options[searchFilter.selectedIndex].value
+            ];
+            if (td) {
+                if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+</script>

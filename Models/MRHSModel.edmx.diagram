@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="3fb9e7acad1e4327b5d54990347708c2" Name="Diagram1" ZoomLevel="74">
+        <EntityTypeShape EntityType="MRHSystemModel.BlockAcconut" Width="1.5" PointX="5.25" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MRHSystemModel.Comment" Width="1.5" PointX="5.25" PointY="7.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="MRHSystemModel.Governorate" Width="1.5" PointX="6" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="MRHSystemModel.Invoice" Width="1.5" PointX="5.25" PointY="11.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="MRHSystemModel.Rate" Width="1.5" PointX="8.25" PointY="8.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="MRHSystemModel.Role" Width="1.5" PointX="0.75" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="MRHSystemModel.Store" Width="1.5" PointX="8.25" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="MRHSystemModel.User" Width="1.5" PointX="3" PointY="7.375" IsExpanded="true" />
+        <AssociationConnector Association="MRHSystemModel.FK_BlockAcconut_User" ManuallyRouted="false" />
+        <AssociationConnector Association="MRHSystemModel.FK_Comment_RecieverEmail" ManuallyRouted="false" />
+        <AssociationConnector Association="MRHSystemModel.FK_Comment_SenderEmail" ManuallyRouted="false" />
+        <AssociationConnector Association="MRHSystemModel.fk_ParentID_CommentID" ManuallyRouted="false" />
+        <AssociationConnector Association="MRHSystemModel.FK_Store_Governorate" ManuallyRouted="false" />
+        <AssociationConnector Association="MRHSystemModel.FK_Invoice_StoreEmail" ManuallyRouted="false" />
+        <AssociationConnector Association="MRHSystemModel.FK_Rate_User_Reciever" ManuallyRouted="false" />
+        <AssociationConnector Association="MRHSystemModel.FK_Rate_User_Sender" ManuallyRouted="false" />
+        <AssociationConnector Association="MRHSystemModel.FK_User_Role" ManuallyRouted="false" />
+        <AssociationConnector Association="MRHSystemModel.FK_Store_User" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,55 @@
+﻿@model Mobile_Repair_History_System_MRHS.Models.User
+@{
+    ViewBag.Title = "Store Details";
+    Layout = "~/Views/Share/_AdminMain.cshtml";
+}
+<script src="~/Contant/Admin/jquery.min.js"></script>
+<section class="content">
+    <div class="container-fluid">
+        <div class="row" style="padding-top:70px;">
+            <div class="card card-primary card-outline col-md-3" style="margin:auto auto;">
+                <div class="card-body box-profile" style="margin-top:25px; height:400px;">
+                    <h3 class="profile-username text-center">@Model.UserName</h3>
+                    <p class="text-muted text-center">@Model.Role.RoleName</p>
+                    <ul class="list-group list-group-unbordered mb-3" style="margin-top:50px;">
+                        <li class="list-group-item">
+                            <b>Email</b> <a class="float-right">@Model.Email</a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>Status</b> <a class="float-right">@Model.Status</a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>Rate</b> <a class="float-right">@ViewBag.Rates</a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>Is Email Verified</b> <a class="float-right">@Model.IsEmailVerified</a>
+                        </li>
+                    </ul>
+                    @if (Model.Status == "Active")
+                    {
+                        <span class="btn btn-danger btn-block" onclick="Blocked()"><b>Block</b></span>
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Active", "Active", new { email = Model.Email }, new { @class = "btn btn-success btn-block" })
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<div id="reason" style="display:none;">
+    @Html.Action("Blocked")
+</div>
+<script src="~/Script/Admin/Dashboard/dist/js/adminlte.min.js"></script>
+<script>
+    var block = document.getElementById("reason");
+    function Blocked() {
+        if (block.style.display === "none") {
+            block.style.display = "block";
+
+        } else {
+            block.style.display = "none";
+        }
+    }
+</script>

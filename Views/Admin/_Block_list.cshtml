@@ -1,0 +1,115 @@
+﻿@model IEnumerable<Mobile_Repair_History_System_MRHS.Models.MultipleClass>
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 style="text-align:center;">Block Account list</h3>
+                    </div>
+                    <div class="col-12" style="margin:0 auto;">
+                        <select id="filterType_block" class="col-6" style="width:49%;">
+                            <option>Search For</option>
+                            <option value="0">No.</option>
+                            <option value="1">Name</option>
+                            <option value="2">Email</option>
+                            <option value="3">Role</option>
+                            <option value="4">Phone Number</option>
+                            <option value="5">Reason</option>
+                        </select>
+                        <input type="text" id="searchBox_block" onkeyup="search_block()" placeholder="Search" class="col-6" style="width:49%;">
+                    </div>
+                    <table id="dataTable2" style="margin:0 auto;padding:5px 5px;" class="table">
+                        <thead class="header">
+                            <tr>
+                                <th>No.</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Phone Number</th>
+                                <th>Is Verified</th>
+                                <th>Reason</th>
+                                <th>Date Time</th>
+                                <th>Details</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null)
+                            {
+                                int Count = 1;
+                                foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@Count</td>
+                                        <td>@item.user.UserName</td>
+                                        <td>@item.blockAcconut.UserEmail</td>
+                                        @switch (item.user.RoleID)
+                                        {
+                                            case 1:
+                                                {
+                                                    <td>Admin</td>
+                                                }
+                                                break;
+                                            case 2:
+                                                {
+                                                    <td>Store</td>
+                                                }
+                                                break;
+                                            case 3:
+                                                {
+                                                    <td>Customer</td>
+                                                }
+                                                break;
+                                            case 4:
+                                                {
+                                                    <td>Guest</td>
+                                                }
+                                                break;
+                                        }
+                                        <td>@item.user.Phone</td>
+                                        <td>@item.user.IsEmailVerified</td>
+                                        <td>@item.blockAcconut.Reason</td>
+                                        <td>@item.blockAcconut.DateTime</td>
+                                        @if (item.user.RoleID == 2)
+                                        {
+                                            <td>@Html.ActionLink("Details", "Store_info", new { email = item.user.Email })</td>
+                                        }
+                                        else
+                                        {
+                                            <td>@Html.ActionLink("Details", "user_info", new { email = item.user.Email })</td>
+                                        }
+                                    </tr>
+                                    Count++;
+                                }
+                            }  
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+<script>
+    function search_block() {
+        var input, filter, table, tr, td, i, searchFilter;
+        input = document.getElementById("searchBox_block");
+        filter = input.value.toUpperCase();
+        searchFilter = document.getElementById("filterType_block");
+        table = document.getElementById("dataTable2");
+        tr = table.getElementsByTagName("tr");
+
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[
+                searchFilter.options[searchFilter.selectedIndex].value
+            ];
+            if (td) {
+                if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+</script>

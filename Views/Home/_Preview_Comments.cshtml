@@ -1,0 +1,90 @@
+﻿@model List<Mobile_Repair_History_System_MRHS.Models.Comment>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,700' rel='stylesheet' type='text/css'>
+    <link href="~/Contant/Home/assets/css/comment/style.css" rel="stylesheet" />
+    <style>
+        #btn{
+           border-radius:50px;
+        }
+    </style>
+</head>
+<body>
+    <div class="comments-container">
+        <ul id="comments-list" class="comments-list">
+            <li>
+                @if (Model != null)
+                {
+                    int Count = 1;
+                    foreach (var item in Model)
+                    {
+                        if (item.CommentID != 0)
+                        {
+                            var comm = Model.Where(x => x.ParentID == item.CommentID).ToList();
+                            if (item.ParentID == 0)
+                            {
+                                <div class="comment-main-level" style="margin-bottom:10px;">
+                                    <div class="comment-avatar"><img src="~/Contant/Home/assets/logo2.png" alt=""></div>
+                                    <div class="comment-box">
+                                        <div class="comment-head">
+                                            <h6 class="comment-name "><a>@item.SenderEmail</a></h6>
+                                            <span>@item.DateTime</span>
+                                        </div>
+                                        <div class="comment-content">
+                                            @item.Content
+                                            @if (ViewBag.Check1 == "Store")
+                                            {
+                                                if (comm.Count == 0)
+                                                {
+                                                    <div>
+                                                        @using (Html.BeginForm("Reply", "Home", FormMethod.Post))
+                                                        {
+                                                            @Html.Editor("reply", new { htmlAttributes = new { id="reply1"} })
+                                                            if(ViewBag.error == "Reply is Empty")
+                                                            {
+                                                                <div>@ViewBag.error</div>
+                                                            }
+                                                            @Html.Hidden("P_ID", item.CommentID)
+                                                        <button type="submit" class="btn btn-success" id="btn">Send</button>
+                                                        }
+                                                    </div>
+                                                }
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            foreach (var c in comm)
+                            {
+                                <ul class="comments-list reply-list">
+                                    <li>
+                                        <div class="comment-avatar"><img src="~/Contant/Home/assets/logo2.png" alt=""></div>
+                                        <div class="comment-box">
+                                            <div class="comment-head">
+                                                <h6 class="comment-name"><a>@c.SenderEmail</a></h6>
+                                                <span>@c.DateTime</span>
+                                            </div>
+                                            <div class="comment-content">
+                                                @c.Content
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            }
+                            Count++;
+                        }
+                    }
+                }
+                else
+                {
+                    <span>No Comments</span>
+                }
+            </li>
+            <li style="margin-bottom:10px;"></li>
+        </ul>
+    </div>
+</body>
+</html>

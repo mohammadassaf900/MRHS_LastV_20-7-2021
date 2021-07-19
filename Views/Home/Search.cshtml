@@ -1,0 +1,265 @@
+﻿@model List<Mobile_Repair_History_System_MRHS.Models.Invoice>
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="robots" content="index, follow, noodp">
+    <meta name="googlebot" content="index, follow">
+    <meta name="google" content="notranslate">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="~/Contant/Home/assets/css/demo.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/Contant/Home/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/Contant/Home/assets/css/magnific-popup.css">
+    <link rel="stylesheet" href="~/Contant/Home/assets/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="~/Contant/Home/assets/css/all.min.css">
+    <link rel="stylesheet" href="~/Contant/Home/assets/css/mobirise/style.css">
+    <link rel="stylesheet" href="~/Contant/Home/assets/css/aos.css">
+    <link rel="stylesheet" href="~/Contant/Home/assets/css/main.css">
+    <link rel="stylesheet" href="~/Contant/Home/assets/css/responsive.css">
+    <link rel="stylesheet" href="~/Contant/Home/assets/css/dark.theme.css" id="optional-theme">
+    <link rel="stylesheet" href="~/Contant/Home/assets/css/default.css" id="optional-color">
+    <link rel="icon" href="~/Contant/Home/assets/logo2.png" type="image/icon type">
+    <link href="~/Contant/Home/assets/css/search.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <title>Search</title>
+</head>
+<body data-spy="scroll" data-target=".scrollspy" data-offset="85">
+    <div id="preloader">
+        <div class="text-center w-100">
+            <div class="loader"></div>
+        </div>
+    </div>
+    <header class="navigation horizontal_header navbar navbar-expand-lg fixed-top">
+        <div class="header-ins">
+            <div class="container">
+                <div class="site-logo">
+                    <a href="~/home/index" class="hoveroff" title="MRHS">
+                        <img src="~/Contant/Home/assets/logo2.png" style="width:100px;" />
+                    </a>
+                </div>
+                <button class="button-toggler navbar-toggler collapsed" type="button" data-target="#navigation" data-toggle="collapse" aria-controls="navigation" aria-expanded="false">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <ul class="justify-content-end scrollspy collapse navbar-collapse" id="navigation">
+                    <li>
+                        <a href="~/Home/index" class="nav-link">Home</a>
+                    </li>
+                    <li>
+                        <a href="~/Home/Contact" class="nav-link">Contact</a>
+                    </li>
+                    @{
+                        if (Request.IsAuthenticated)
+                        {
+                            if (User.IsInRole("Store"))
+                            {
+
+                                <li>
+                                    @Html.ActionLink("Create an Invoice", "Create_invoices", "Store")
+
+                                </li>
+                                <li>
+                                    @Html.ActionLink("Preview Invoices", "Preview_Invoices", "Store")
+                                </li>
+                                <li>
+                                    <a href="~/Home/Store_info" class="nav-link">@Session["username"]</a>
+                                </li>
+                            }
+                            else if (User.IsInRole("Admin"))
+                            {
+                                <li>
+                                    @Html.ActionLink("Dashboard", "Dashboard", "Admin")
+                                </li>
+                                <li>
+                                    <a href="~/Admin/Profile_info" class="nav-link">@Session["username"]</a>
+                                </li>
+                            }
+                            else if (User.IsInRole("Customer") || User.IsInRole("Guest"))
+                            {
+                                <li>
+                                    <a href="~/Home/Profile_info" class="nav-link">@Session["username"]</a>
+                                </li>
+                            }
+                            <li>
+                                <a href="~/User/logout" class="nav-link">Logout</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li>
+                                <a href="~/User/login" class="nav-link">Sign In</a>
+                            </li>
+                            <li>
+                                <a href="~/User/Registration" class="nav-link">Sign Up</a>
+                            </li>
+                        }
+                    }
+                </ul>
+            </div>
+        </div>
+    </header>
+    <main class="content center-main">
+        <section class="home d-flex" id="home" style="height:250px">
+            <div class="background-particle" id="particles-js">
+            </div>
+            <div class="container introduction text-center" style="margin-bottom:-100px;">
+                <div id="parallax-scene" class="mb-4" data-aos="fade-up" data-aos-duration="1200" data-aos-delay="300">
+                    <div id="searchbox5">
+                        @using (Html.BeginForm("Search", "Home", FormMethod.Post))
+                        {
+                            @Html.Editor("DeviceId", new { htmlAttributes = new { id = "search52", name = "q", type = "text", size = "40", placeholder = "Search..." } })<br />
+                            <button class="btn  btn-primary btn-small" id="search" style="border-radius:50px;margin-top:10px;color:white;" type="submit">
+                                Search
+                            </button>
+                        }
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div style="margin:auto;padding:25px;">
+            <table class="table table-dark table-striped">
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>Device ID</th>
+                        <th>Date</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Count != 0)
+                    {
+                        int Count = 1;
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@Count</td>
+                                <td>@item.DeviceID</td>
+                                <td>@item.Date</td>
+                                <td>
+                                    @{
+                                        if (Session["username"] != null)
+                                        {
+                                            if (User.IsInRole("Store"))
+                                            {
+                                                @Html.ActionLink("Details", "Details", "Store", new { id = item.InvoiceID }, null)
+                                            }
+                                            else if (User.IsInRole("Customer"))
+                                            {
+                                                @Html.ActionLink("Details", "Details", "Home", new { id = item.InvoiceID }, null)
+                                            }
+                                            else if (User.IsInRole("Guest"))
+                                            {
+                                                @Html.ActionLink("Details", "Details", "Home", new { id = item.InvoiceID }, null)
+                                            }
+                                            else if (User.IsInRole("Admin"))
+                                            {
+                                                @Html.ActionLink("Details", "Details", "Home", new { id = item.InvoiceID }, null)
+                                            }
+                                        }
+                                        else
+                                        {
+                                            @Html.ActionLink("Details", "Login", "User")
+                                        }
+                                    }
+                                </td>
+                            </tr>
+                            Count++;
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="4" style="text-align:center;">No Data Found</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <footer class="horizontal-footer shadow-footer">
+            <div class="container">
+                <div class="row justify-content-center text-center">
+                    <div class="col-md-12">
+                        <div class="text-center">
+                            <ul class="social-icons list-inline mt-5">
+                                <li class="list-inline-item">
+                                    <a href="#">
+                                        <i class="fab fa-facebook-f"></i>
+                                    </a>
+                                </li>
+                                <li class="list-inline-item">
+                                    <a href="#">
+                                        <i class="fab fa-linkedin-in"></i>
+                                    </a>
+                                </li>
+                                <li class="list-inline-item">
+                                    <a href="#">
+                                        <i class="fab fa-pinterest-p"></i>
+                                    </a>
+                                </li>
+                                <li class="list-inline-item">
+                                    <a href="#">
+                                        <i class="fab fa-git"></i>
+                                    </a>
+                                </li>
+                                <li class="list-inline-item">
+                                    <a href="#">
+                                        <i class="fab fa-tumblr"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                            <p class="copyright-text mt-3 mb-5">2021 ©. Developed and Designed by <b>MRHS</b></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </main>
+    <a href="#" class="toTop" id="return-to-top">
+        <i class="fas fa-chevron-up"></i>
+    </a>
+    <script src="~/Contant/Home/assets/js/jquery.js"></script>
+    <script src="~/Contant/Home/assets/js/popper.min.js"></script>
+    <script src="~/Contant/Home/assets/js/bootstrap.min.js"></script>
+    <script src="~/Contant/Home/assets/js/jquery.easing.min.js"></script>
+    <script src="~/Contant/Home/assets/js/jquery.appear.min.js"></script>
+    <script src="~/Contant/Home/assets/js/jquery.countTo.js"></script>
+    <script src="~/Contant/Home/assets/js/scrollspy.js"></script>
+    <script src="~/Contant/Home/assets/js/jquery.magnific-popup.min.js"></script>
+    <script src="~/Contant/Home/assets/js/owl.carousel.min.js"></script>
+    <script src="~/Contant/Home/assets/js/aos.js"></script>
+    <script src="~/Contant/Home/assets/js/typed.min.js"></script>
+    <script src="~/Contant/Home/assets/js/particles.min.js"></script>
+    <script src="~/Contant/Home/assets/js/alert.js"></script>
+    <script src="~/Contant/Home/assets/js/contact.js"></script>
+    <script src="~/Contant/Home/assets/js/custom.js"></script>
+    <script src="~/Contant/Home/assets/modernizr.custom.86080.js"></script>
+    <script src="~/Contant/Home/assets/particles.js"></script>
+    <script src="~/Contant/Home/assets/app.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.1/TweenMax.min.js'></script>
+    <script src="~/Contant/Home/assets/js/search.js"></script>
+    <script>
+        var search52 = document.getElementById("search52");
+        var search = document.getElementById("search");
+
+        $("#search52").on("input", function () {
+            if (this.value.length >= 5) {
+                search.setAttribute("disabled", "disabled");
+            }
+            else {
+                search.removeAttribute("disabled");
+            }
+        });
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+</body>
+</html>

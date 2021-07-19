@@ -1,0 +1,221 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="robots" content="index, follow, noodp">
+    <meta name="googlebot" content="index, follow">
+    <meta name="google" content="notranslate">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" href="~/Contant/Home/assets/logo2.png" type="image/icon type">
+    <link href="~/Contant/Home/assets/css/demo.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/Contant/Home/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/Contant/Home/assets/css/magnific-popup.css">
+    <link rel="stylesheet" href="~/Contant/Home/assets/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="~/Contant/Home/assets/css/all.min.css">
+    <link rel="stylesheet" href="~/Contant/Home/assets/css/mobirise/style.css">
+    <link rel="stylesheet" href="~/Contant/Home/assets/css/aos.css">
+    <link rel="stylesheet" href="~/Contant/Home/assets/css/main.css">
+    <link rel="stylesheet" href="~/Contant/Home/assets/css/responsive.css">
+    <link rel="stylesheet" href="~/Contant/Home/assets/css/dark.theme.css" id="optional-theme">
+    <link rel="stylesheet" href="~/Contant/Home/assets/css/default.css" id="optional-color">
+    <link rel="icon" href="~/Contant/Home/assets/logo2.png" type="image/icon type">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link href="~/Contant/Home/assets/css/search.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
+    <title>Contant</title>
+</head>
+<body data-spy="scroll" data-target=".scrollspy" data-offset="85">
+    <div id="preloader">
+        <div class="text-center w-100">
+            <div class="loader"></div>
+        </div>
+    </div>
+    <header class="navigation horizontal_header navbar navbar-expand-lg fixed-top">
+        <div class="header-ins">
+            <div class="container">
+                <div class="site-logo">
+                    <a href="~/home/index" class="hoveroff" title="MRHS">
+                        <img src="~/Contant/Home/assets/logo2.png" style="width:100px;" />
+                    </a>
+                </div>
+                <button class="button-toggler navbar-toggler collapsed" type="button" data-target="#navigation" data-toggle="collapse" aria-controls="navigation" aria-expanded="false">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <ul class="justify-content-end scrollspy collapse navbar-collapse" id="navigation">
+                    <li>
+                        <a href="~/Home/index" class="nav-link">Home</a>
+                    </li>
+                    <li>
+                        <a href="~/Home/Contact" class="nav-link">Contact</a>
+                    </li>
+                    @{
+                        if (Request.IsAuthenticated)
+                        {
+                            if (User.IsInRole("Store"))
+                            {
+                                <li>
+                                    @Html.ActionLink("Create an Invoice", "Create_invoices", "Store")
+                                </li>
+                                <li>
+                                    @Html.ActionLink("Preview Invoices", "Preview_Invoices", "Store")
+                                </li>
+                                <li>
+                                    <a href="~/Store/Profile_info" class="nav-link">@Session["username"]</a>
+                                </li>
+                            }
+                            else if (User.IsInRole("Admin"))
+                            {
+                                <li>
+                                    @Html.ActionLink("Dashboard", "Dashboard", "Admin")
+                                </li>
+                                <li>
+                                    <a href="~/Admin/Profile_info" class="nav-link">@Session["username"]</a>
+                                </li>
+                            }
+                            else if (User.IsInRole("Customer") || User.IsInRole("Guest"))
+                            {
+                                <li>
+                                    <a href="~/Home/Profile_info" class="nav-link">@Session["username"]</a>
+                                </li>
+                            }
+                            <li>
+                                <a href="~/User/logout" class="nav-link">Logout</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li>
+                                <a href="~/User/login" class="nav-link">Sign In</a>
+                            </li>
+                            <li>
+                                <a href="~/User/Registration" class="nav-link">Sign Up</a>
+                            </li>
+                        }
+                    }
+                </ul>
+            </div>
+        </div>
+    </header>
+    <section class="contact" id="contact">
+        <div class="container d-flex flex-column justify-content-between h-100 ">
+            <div class="section-title flex-grow-1">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="text-center">
+                            <h2 data-aos="heading-show">Get in Touch</h2>
+                            <p class="m-0">We Love To Hear From You </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="section-content flex-grow-1">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="d-flex flex-row flex-sm-column flex-md-row justify-content-md-center mb-3 text-left text-sm-center text-md-left">
+                            <div class="contact-icon mr-md-3 mr-3 mr-sm-0">
+                                <span class="mbri-letter"></span>
+                            </div>
+                            <div class="contact-details mt-2">
+                                <h5>Email Us</h5>
+                                <p><a href="mailto:MRHS@gmail.com">MRHS@gmail.com</a></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="d-flex flex-row flex-sm-column flex-md-row justify-content-md-center mb-3 text-left text-sm-center text-md-left">
+                            <div class="contact-icon mr-md-3 mr-3 mr-sm-0">
+                                <span class="mbri-mobile"></span>
+                            </div>
+                            <div class="contact-details mt-2">
+                                <h5>Call</h5>
+                                <p><a href="tel:+962770240643">+962770240643</a></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="d-flex flex-row flex-sm-column flex-md-row justify-content-md-center mb-3 text-left text-sm-center text-md-left">
+                            <div class="contact-icon mr-md-3 mr-3 mr-sm-0">
+                                <span class="mbri-map-pin"></span>
+                            </div>
+                            <div class="contact-details mt-2">
+                                <h5>Visit</h5>
+                                <p>Amman, Jordan</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-5">
+                    <div class="col-lg-12">
+                        <div d="contact-form" style="color:white;">
+                            @using (Html.BeginForm("Contact", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                            {
+                                <div class="row">
+                                    <div class="col-lg-6 mt-3">
+                                        <div class="form-group">
+                                            <input type="text" name="name" id="name" class="form-control" autocomplete="off" required>
+                                            <label>Full Name</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 mt-3">
+                                        <div class="form-group">
+                                            <input type="email" name="email" id="email" class="form-control" autocomplete="off" required>
+                                            <label>Email</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 mt-3">
+                                        <div class="form-group">
+                                            <input type="text" name="subject" id="subject" class="form-control" autocomplete="off" required>
+                                            <label>Subject</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 mt-3">
+                                        <div class="form-group">
+                                            <textarea name="text" id="text" rows="6" class="form-control" required></textarea>
+                                            <label>Message</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 mt-3">
+                                        <div class="form-group mb-0 text-right">
+                                            <button type="submit" id="contact-btn" class="btn btn-outline-primary btn-bg">
+                                                Send Message
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <a href="#" class="toTop" id="return-to-top">
+        <i class="fas fa-chevron-up"></i>
+    </a>
+    <script src="~/Contant/Home/assets/js/jquery.js"></script>
+    <script src="~/Contant/Home/assets/js/popper.min.js"></script>
+    <script src="~/Contant/Home/assets/js/bootstrap.min.js"></script>
+    <script src="~/Contant/Home/assets/js/jquery.easing.min.js"></script>
+    <script src="~/Contant/Home/assets/js/jquery.appear.min.js"></script>
+    <script src="~/Contant/Home/assets/js/jquery.countTo.js"></script>
+    <script src="~/Contant/Home/assets/js/scrollspy.js"></script>
+    <script src="~/Contant/Home/assets/js/jquery.magnific-popup.min.js"></script>
+    <script src="~/Contant/Home/assets/js/owl.carousel.min.js"></script>
+    <script src="~/Contant/Home/assets/js/aos.js"></script>
+    <script src="~/Contant/Home/assets/js/typed.min.js"></script>
+    <script src="~/Contant/Home/assets/js/particles.min.js"></script>
+    <script src="~/Contant/Home/assets/js/alert.js"></script>
+    <script src="~/Contant/Home/assets/js/contact.js"></script>
+    <script src="~/Contant/Home/assets/js/custom.js"></script>
+    <script src="~/Contant/Home/assets/modernizr.custom.86080.js"></script>
+    <script src="~/Contant/Home/assets/particles.js"></script>
+    <script src="~/Contant/Home/assets/app.js"></script>
+</body>
+</html>

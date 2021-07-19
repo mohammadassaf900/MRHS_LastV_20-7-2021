@@ -1,0 +1,84 @@
+﻿@model IEnumerable<Mobile_Repair_History_System_MRHS.Models.MultipleClass>
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 style="text-align:center;">Store list</h3>
+                    </div>
+                    <div class="col-12" style="margin:0 auto;">
+                        <select id="filterType_store" class="col-6" style="width:49%;">
+                            <option>Search For</option>
+                            <option value="0">No.</option>
+                            <option value="1">Name</option>
+                            <option value="2">Email</option>
+                            <option value="3">Points</option>
+                            <option value="4">Status</option>
+                        </select>
+                        <input type="text" id="searchBox_store" onkeyup="search_store()" placeholder="Search" class="col-6" style="width:49%;">
+                    </div>
+                    <table id="dataTable3" style="margin:0 auto;padding:5px 5px;" class="table">
+                        <thead class="header">
+                            <tr>
+                                <th>No.</th>
+                                <th>Store Name</th>
+                                <th>Email</th>
+                                <th>Points</th>
+                                <th>Status</th>
+                                <th>Details</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null)
+                            {
+                                int count = 1;
+
+                                foreach (var item in Model)
+                                {
+                                    if (item.user.Status == "Active")
+                                    {
+                                        <tr>
+                                            <td>@count</td>
+                                            <td>@item.user.UserName</td>
+                                            <td>@item.store.Email</td>
+                                            <td>@item.store.Points</td>
+                                            <td>@item.user.Status</td>
+                                            <td>@Html.ActionLink("Details", "Store_info", new { email = item.store.Email })</td>
+                                        </tr>
+                                    }
+
+                                    count++;
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+<script>
+    function search_store() {
+        var input, filter, table, tr, td, i, searchFilter;
+        input = document.getElementById("searchBox_store");
+        filter = input.value.toUpperCase();
+        searchFilter = document.getElementById("filterType_store");
+        table = document.getElementById("dataTable3");
+        tr = table.getElementsByTagName("tr");
+
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[
+                searchFilter.options[searchFilter.selectedIndex].value
+            ];
+            if (td) {
+                if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+</script>

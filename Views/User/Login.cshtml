@@ -1,0 +1,93 @@
+﻿@model Mobile_Repair_History_System_MRHS.Models.UserLogin
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="~/Contant/Home/assets/logo2.png" type="image/icon type">
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css'>
+    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'>
+    <link href="~/Contant/Account/css/style.css" rel="stylesheet" />
+</head>
+<body class="main">
+    <div id="particles-js"></div>
+    <div class="container">
+        <div class="main-container-wrapper clearfix">
+            <div class="logo">
+                <i class="fa fa-sign-in"></i>
+            </div>
+            <div class="welcome"><strong>Welcome,</strong> Please Login</div>
+            <div class="form-horizontal main-form">
+                @using (Html.BeginForm("Login", "User", new { ReturnUrl = Request.QueryString["ReturnUrl"] }, FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    if (ViewBag.Message != "")
+                    {
+                        <div class="text-danger" style="text-align:center;color:red;">
+                            @ViewBag.Message
+                            @if (ViewBag.Message == "Your Account is Blocked, You Can Contact Us Here...")
+                            {
+                              <a href="~/Home/Contact">Contact Us</a>
+                            }
+                        </div>
+                    }
+                    <div class="form-group relative">
+                        @Html.EditorFor(model => model.Email, new
+                         {
+                            htmlAttributes = new
+                             {
+                                @class = "form-control input-lg",
+                                @id = "main_username",
+                                placeholder = "Email",
+                                style = "background-color: rgba(40, 52, 67, 0.75);border: 1px solid #4a525f;color: #eee;border-left: 4px solid #93a5ab;"
+                             }
+                         })
+                        <i class="fa fa-user"></i>
+                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger", style = "color:red;" })
+                    </div>
+                    <div class="form-group relative password">
+                        @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control input-lg", placeholder = "Password", id = "main_password" } })
+                        <i class="fa fa-lock"></i>
+                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger", style = "color:red;" })
+                    </div>
+                    <table>
+                        <tr>
+                            <td>
+                                @Html.EditorFor(model => model.RememberMe)
+                                @Html.ValidationMessageFor(model => model.RememberMe, "", new { @class = "text-danger" })
+                                @Html.LabelFor(model => model.RememberMe)
+                            </td>
+                            <td>
+                                <span class="txt1" style="margin-left:82px;">
+                                    Forgot
+                                </span>
+                                <a href="~/user/ForgotPassword" class="txt2">
+                                    Password?
+                                </a>
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="form-group">
+                        <input type="submit" value="login" class="btn btn-success btn-lg btn-block" style="margin-top:10px;" />
+                    </div>
+                }
+            </div>
+            <div class="flex-col-c" style="text-align: center;">
+                <span class="txt1 p-b-9">
+                    Don’t have an account?
+                </span>
+                <a href="~/user/Registration" class="txt3">
+                    Sign up now
+                </a>
+            </div>
+        </div>
+    </div>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js'></script>
+    <script src='https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js'></script>
+    <script src="~/Contant/Account/js/mains.js"></script>
+</body>
+</html>

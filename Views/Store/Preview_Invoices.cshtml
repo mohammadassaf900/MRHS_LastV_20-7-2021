@@ -1,0 +1,248 @@
+﻿@model List<Mobile_Repair_History_System_MRHS.Models.Invoice>
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="robots" content="index, follow, noodp">
+    <meta name="googlebot" content="index, follow">
+    <meta name="google" content="notranslate">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" href="~/Contant/Home/assets/logo2.png" type="image/icon type">
+    <link href="~/Contant/Home/assets/css/demo.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/Contant/Home/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/Contant/Home/assets/css/magnific-popup.css">
+    <link rel="stylesheet" href="~/Contant/Home/assets/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="~/Contant/Home/assets/css/all.min.css">
+    <link rel="stylesheet" href="~/Contant/Home/assets/css/mobirise/style.css">
+    <link rel="stylesheet" href="~/Contant/Home/assets/css/aos.css">
+    <link rel="stylesheet" href="~/Contant/Home/assets/css/main.css">
+    <link rel="stylesheet" href="~/Contant/Home/assets/css/responsive.css">
+    <link rel="stylesheet" href="~/Contant/Home/assets/css/dark.theme.css" id="optional-theme">
+    <link rel="stylesheet" href="~/Contant/Home/assets/css/default.css" id="optional-color">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link href="~/Contant/Home/assets/css/search.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
+    <style>
+        #myImg {
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        #myImg:hover {
+            opacity: 0.7;
+        }
+        .modal-content {
+            margin: 50px auto;
+            display: block;
+            width: 80%;
+            max-width: 700px;
+        }
+        #caption {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 700px;
+            text-align: center;
+            color: #ccc;
+            padding: 10px 0;
+            height: 150px;
+        }
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .close:hover,
+        .close:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <link href="~/Contant/Admin/Dashboard/plugins/fontawesome-free/css/all.min.css" rel="stylesheet" />
+    <title>Preview Invoices</title>
+</head>
+<body data-spy="scroll" data-target=".scrollspy" data-offset="85">
+    <div id="preloader">
+        <div class="text-center w-100">
+            <div class="loader"></div>
+        </div>
+    </div>
+    <header class="navigation horizontal_header navbar navbar-expand-lg fixed-top">
+        <div class="header-ins">
+            <div class="container">
+                <div class="site-logo">
+                    <a href="~/home/index" class="hoveroff" title="MRHS">
+                        <img src="~/Contant/Home/assets/logo2.png" style="width:100px;" />
+                    </a>
+                </div>
+                <button class="button-toggler navbar-toggler collapsed" type="button" data-target="#navigation" data-toggle="collapse" aria-controls="navigation" aria-expanded="false">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <ul class="justify-content-end scrollspy collapse navbar-collapse" id="navigation">
+                    <li>
+                        <a href="~/Home/index" class="nav-link">Home</a>
+                    </li>
+                    <li>
+                        <a href="~/Home/Contact" class="nav-link">Contact</a>
+                    </li>
+                    @{
+                        if (Request.IsAuthenticated)
+                        {
+                            if (User.IsInRole("Store"))
+                            {
+                                <li>
+                                    @Html.ActionLink("Create an Invoice", "Create_invoices", "Store")
+
+                                </li>
+                                <li>
+                                    @Html.ActionLink("Preview Invoices", "Preview_Invoices", "Store")
+                                </li>
+                                <li>
+                                    <a href="~/Store/Profile_info" class="nav-link">@Session["username"]</a>
+                                </li>
+                            }
+                            else if (User.IsInRole("Admin"))
+                            {
+                                <li>
+                                    @Html.ActionLink("Dashboard", "Dashboard", "Admin")
+                                </li>
+                                <li>
+                                    <a href="~/Admin/Profile_info" class="nav-link">@Session["username"]</a>
+                                </li>
+                            }
+                            else if (User.IsInRole("Customer") || User.IsInRole("Guest"))
+                            {
+                                <li>
+                                    <a href="~/Home/Profile_info" class="nav-link">@Session["username"]</a>
+                                </li>
+                            }
+                            <li>
+                                <a href="~/User/logout" class="nav-link">Logout</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li>
+                                <a href="~/User/login" class="nav-link">Sign In</a>
+                            </li>
+                            <li>
+                                <a href="~/User/Registration" class="nav-link">Sign Up</a>
+                            </li>
+                        }
+                    }
+                </ul>
+            </div>
+        </div>
+    </header>
+    <main class="content center-main" style="margin-top:150px;">
+        <table class="table table-striped table-dark" style="width: 1000px;margin-left: auto;margin-right: auto;">
+            <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Invoice ID</th>
+                    <th>Store Email</th>
+                    <th>Date</th>
+                    <th>Device ID</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="myTable">
+                @if (Model != null)
+                {
+                    int Count = 1;
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@Count</td>
+                            <td>@item.InvoiceID</td>
+                            <td>@item.StoreEmail</td>
+                            <td>@item.Date</td>
+                            <td>@item.DeviceID</td>
+                            <td>
+                                @Html.ActionLink("Delete", "Delete_Invoies", new { id = item.InvoiceID })|@Html.ActionLink("Details", "Details", new { id = item.InvoiceID })
+                            </td>
+                        </tr>
+                        Count++;
+                    }
+                }
+            </tbody>
+        </table>
+        <footer class="horizontal-footer shadow-footer">
+            <div class="container">
+                <div class="row justify-content-center text-center">
+                    <div class="col-md-12">
+                        <div class="text-center">
+                            <ul class="social-icons list-inline mt-5">
+                                <li class="list-inline-item">
+                                    <a href="#">
+                                        <i class="fab fa-facebook-f"></i>
+                                    </a>
+                                </li>
+                                <li class="list-inline-item">
+                                    <a href="#">
+                                        <i class="fab fa-linkedin-in"></i>
+                                    </a>
+                                </li>
+                                <li class="list-inline-item">
+                                    <a href="#">
+                                        <i class="fab fa-pinterest-p"></i>
+                                    </a>
+                                </li>
+                                <li class="list-inline-item">
+                                    <a href="#">
+                                        <i class="fab fa-git"></i>
+                                    </a>
+                                </li>
+                                <li class="list-inline-item">
+                                    <a href="#">
+                                        <i class="fab fa-tumblr"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                            <p class="copyright-text mt-3 mb-5">2021 ©. Developed and Designed by <b>MRHS</b></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </main>
+    <a href="#" class="toTop" id="return-to-top">
+        <i class="fas fa-chevron-up"></i>
+    </a>
+    <script src="~/Contant/Home/assets/js/jquery.js"></script>
+    <script src="~/Contant/Home/assets/js/popper.min.js"></script>
+    <script src="~/Contant/Home/assets/js/bootstrap.min.js"></script>
+    <script src="~/Contant/Home/assets/js/jquery.easing.min.js"></script>
+    <script src="~/Contant/Home/assets/js/jquery.appear.min.js"></script>
+    <script src="~/Contant/Home/assets/js/jquery.countTo.js"></script>
+    <script src="~/Contant/Home/assets/js/scrollspy.js"></script>
+    <script src="~/Contant/Home/assets/js/jquery.magnific-popup.min.js"></script>
+    <script src="~/Contant/Home/assets/js/owl.carousel.min.js"></script>
+    <script src="~/Contant/Home/assets/js/aos.js"></script>
+    <script src="~/Contant/Home/assets/js/typed.min.js"></script>
+    <script src="~/Contant/Home/assets/js/particles.min.js"></script>
+    <script src="~/Contant/Home/assets/js/alert.js"></script>
+    <script src="~/Contant/Home/assets/js/contact.js"></script>
+    <script src="~/Contant/Home/assets/js/custom.js"></script>
+    <script src="~/Contant/Home/assets/modernizr.custom.86080.js"></script>
+    <script src="~/Contant/Home/assets/particles.js"></script>
+    <script src="~/Contant/Home/assets/app.js"></script>
+    <script src="~/Contant/Admin/Dashboard/plugins/jquery/jquery.min.js"></script>
+    <script src="~/Contant/Admin/Dashboard/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/Contant/Admin/Dashboard/dist/js/adminlte.min.js"></script>
+    <script src="~/Contant/Admin/Dashboard/dist/js/demo.js"></script>
+</body>
+</html>
